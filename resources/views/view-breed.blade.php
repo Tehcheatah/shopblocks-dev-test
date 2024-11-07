@@ -1,37 +1,11 @@
 @extends('layouts.app')
-
-@section('title', 'Home')
-
-@push('style')
-    <style>
-        #searchInput {
-            padding: 10px 22px;
-            border-color: var(--primary-bg-color-dark);
-            min-width: 350px;
-        }
-
-        .searchInput-icon {
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-    </style>
-@endpush
+@section('title', $breedData->name)
 
 @section('content')
-    <h3 class="typewriter mb-4">
-        <span id="typewriterText">What pet are you looking for?</span>
-    </h3>
-
-    <form class="d-flex justify-content-center w-100" style="max-width: 800px;" action="{{ route('search') }}" method="get">
-        <div class="position-relative w-100">
-            <input id="searchInput" name="searchInput" class="form-control me-2 rounded-5 form-control-lg" type="search" placeholder="Search" aria-label="Search">
-            <i class="ph ph-magnifying-glass position-absolute searchInput-icon"></i>
-        </div>
-    </form>
+{{--    @dd($breedData)--}}
     <div class="row mt-5 p-2">
         @if(isset($breedDataRows))
-{{--            @dd($breedDataRows)--}}
+            {{--            @dd($breedDataRows)--}}
             @foreach($breedDataRows AS $breedDataRow)
                 <div class="col-3">
                     <a href='{{ route('view-breed', ['breedID' => $breedDataRow->id]) }}'>

@@ -21,7 +21,7 @@
     <i class="ph-fill ph-sun-horizon"></i>
 </div>
 
-<div class="container text-center">
+<div class="container text-center h-full">
     @yield('content')
 </div>
 
