@@ -28,19 +28,16 @@ class PetAPIController extends Controller
                 'limit' => 25,
                 'size' => 'thumb'
             ]);
-
             $catDataRows = $this->getAPIResponse('https://api.thecatapi.com/v1/images/search', $APIParams);
 
             Cache::put('allCatData', $catDataRows, 120);
         }
-
         return view('dashboard', compact('catDataRows'));
     }
 
     public function search(Request $request)
     {
         $searchTerm = strtolower($request->input('searchInput'));
-
         if (Cache::has('search-'.$searchTerm)) {
             $breedDataRows = Cache::get('search-'.$searchTerm);
         } else {
@@ -48,28 +45,37 @@ class PetAPIController extends Controller
                 'attach_image' => 1,
                 'q' => $searchTerm
             ]);
-
             $breedDataRows = $this->getAPIResponse('https://api.thecatapi.com/v1/breeds/search', $APIParams);
 
             Cache::put('search-'.$searchTerm, $breedDataRows, 120);
         }
-
         return view('dashboard', compact('breedDataRows'));
+    }
+
+    public function imageSearch($imageID)
+    {
+        if (Cache::has('image-'.$imageID)) {
+            $imageData = Cache::get('image-'.$imageID);
+        } else {
+            $APIParams = [];
+            $imageData = $this->getAPIResponse('https://api.thecatapi.com/v1/images/'.$imageID, $APIParams);
+
+            Cache::put('image-'.$imageID, $imageData, 120);
+        }
+        return $imageData;
     }
 
     public function specificBreed($breedID)
     {
-
         if (Cache::has('breed-'.$breedID)) {
             $breedData = Cache::get('breed-'.$breedID);
         } else {
             $APIParams = [];
-
             $breedData = $this->getAPIResponse('https://api.thecatapi.com/v1/breeds/'.$breedID, $APIParams);
 
             Cache::put('breed-'.$breedID, $breedData, 120);
         }
-
-        return view('view-breed', compact('breedData'));
+        $imageData = $this->imageSearch($breedData->reference_image_id);
+        return view('view-breed', compact('breedData', 'imageData'));
     }
 }

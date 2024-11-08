@@ -2,52 +2,39 @@
 @section('title', $breedData->name)
 
 @section('content')
-{{--    @dd($breedData)--}}
+    <a href="{{ url()->previous() }}">Go Back To Search</a>
+    @if(isset($imageData))
+        <img class="w-25" src="{{ $imageData->url }}">
+    @endif
+    <h2>{{ $breedData->name }}</h2>
     <div class="row mt-5 p-2">
-        @if(isset($breedDataRows))
-            {{--            @dd($breedDataRows)--}}
-            @foreach($breedDataRows AS $breedDataRow)
-                <div class="col-3">
-                    <a href='{{ route('view-breed', ['breedID' => $breedDataRow->id]) }}'>
-                        <img src="{{ $breedDataRow->image->url }}" style="max-width: 100%; height: auto;">
-                        <span class="mt-3">{{ $breedDataRow->name }}</span>
-                    </a>
-                </div>
-            @endforeach
-        @endif
-        @if(isset($catDataRows))
-            @foreach($catDataRows as $catDataRow)
-                {{--            @dd($catDataRow->breeds[0]->name)--}}
-                <div class="col-3">
-                    <a href='#'>
-                        <img src="{{ $catDataRow->url }}" style="max-width: 100%; height: auto;">
-                        <span class="mt-3">{{ $catDataRow->breeds[0]->name }}</span>
-                    </a>
-                </div>
-            @endforeach
-        @endif
+        <div class="col-12 col-md-6">
+            <div class="w-100">
+                <p>Description: {{ $breedData->description }}</p>
+                <p>Temperament: {{ $breedData->temperament }}</p>
+                <p>Origin: {{ $breedData->origin }}</p>
+                <p>Lifepan: {{ $breedData->life_span }} years</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div>
+                <p>Adaptability: {{ $breedData->adaptability }}/5</p>
+                <p>Affectionate: {{ $breedData->affection_level }}/5</p>
+                <p>Child Friendly: {{ $breedData->child_friendly }}/5</p>
+                <p>Dog Friendly: {{ $breedData->dog_friendly }}/5</p>
+                <p>Energy: {{ $breedData->energy_level }}/5</p>
+                <p>Grooming: {{ $breedData->grooming }}/5</p>
+                <p>Health Issues: {{ $breedData->health_issues }}/5</p>
+                <p>Intelligence: {{ $breedData->intelligence }}/5</p>
+                <p>Shedding Level: {{ $breedData->shedding_level }}/5</p>
+                <p>Social Needs: {{ $breedData->social_needs }}/5</p>
+                <p>Stranger Friendly: {{ $breedData->stranger_friendly }}/5</p>
+                <p>Vocalisation: {{ $breedData->vocalisation }}/5</p>
+                <p>Hairless: {{ $breedData->hairless }}/5</p>
+                <p>Rarity: {{ $breedData->rare }}/5</p>
+                <p>Hypoallergenic: {{ $breedData->hypoallergenic }}/5</p>
+            </div>
+
+        </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('searchInput').focus();
-
-            const titles = [
-                "Looking for a Cat Breed?",
-                "Searching for a Cat Breed?",
-                "What Cat Breed Fits You?",
-                "Find Your Perfect Feline Companion",
-                "Explore Cat Breeds by Trait",
-                "Discover Rare Cat Breeds",
-                "Which Breed is Right for Your Family?",
-                "Find Cat Breeds with Unique Traits",
-                "Discover Cats by Size and Temperament"
-            ];
-
-            const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-            document.getElementById('typewriterText').textContent = randomTitle;
-        });
-    </script>
-@endpush

@@ -31,21 +31,26 @@
     </form>
     <div class="row mt-5 p-2">
         @if(isset($breedDataRows))
-{{--            @dd($breedDataRows)--}}
-            @foreach($breedDataRows AS $breedDataRow)
-                <div class="col-3">
-                    <a href='{{ route('view-breed', ['breedID' => $breedDataRow->id]) }}'>
-                        <img src="{{ $breedDataRow->image->url }}" style="max-width: 100%; height: auto;">
-                        <span class="mt-3">{{ $breedDataRow->name }}</span>
-                    </a>
+            @if(!$breedDataRows)
+                <div class="col-12 text-center">
+                    There are no matches for your search result
+                    <a href="{{ route('dashboard') }}">Go Back Home</a>
                 </div>
-            @endforeach
+            @else
+                @foreach($breedDataRows AS $breedDataRow)
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href='{{ route('view-breed', ['breedID' => $breedDataRow->id]) }}'>
+                            <img src="{{ $breedDataRow->image->url }}" style="max-width: 100%; height: auto;">
+                            <span class="mt-3">{{ $breedDataRow->name }}</span>
+                        </a>
+                    </div>
+                @endforeach
+            @endif
         @endif
         @if(isset($catDataRows))
             @foreach($catDataRows as $catDataRow)
-                {{--            @dd($catDataRow->breeds[0]->name)--}}
-                <div class="col-3">
-                    <a href='#'>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href='{{ route('view-breed', ['breedID' => $catDataRow->breeds[0]->id]) }}'>
                         <img src="{{ $catDataRow->url }}" style="max-width: 100%; height: auto;">
                         <span class="mt-3">{{ $catDataRow->breeds[0]->name }}</span>
                     </a>
